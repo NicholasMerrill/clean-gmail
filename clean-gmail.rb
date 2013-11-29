@@ -8,13 +8,15 @@ require 'inifile'
 
 config = IniFile.load('config.ini')
 
-cleanStart = Date.parse(config['times']['archive'])
+archiveDateString = config['dates']['archive']
+archiveDate = Date.parse(archiveDateString)
 
 Gmail.connect(config['auth']['username'], config['auth']['password']) do |gmail|
-    labelName = "Archived 2013-11-29"
+    labelName = "Archived " + Time.new.strftime('%Y-%m-%d')
 
-    gmail.inbox.count(:before => cleanStart)
-    gmail.inbox.find(:before => cleanStart).each do |email|
+    puts gmail.inbox.count(:before => archiveDate).to_s + " total to be archived"
+    puts gmail.inbox.count(:unread, :before => archiveDate).to_s + " unread to be archived"
+    gmail.inbox.find(:before => archiveDate).each do |email|
         puts "archiving email from " + email.date
         email.label!(labelName)
         email.archive!
