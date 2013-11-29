@@ -15,7 +15,7 @@ Gmail.connect(config['auth']['username'], config['auth']['password']) do |gmail|
     labelName = "Archived 2013-11-28"
 
     gmail.inbox.find(:before => Date.parse("2013-09-01")).each do |email|
-        puts "archiving " + email.subject
+        puts "archiving email from " + email.date
         email.label!(labelName)
         email.archive!
     end
