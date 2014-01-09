@@ -1,0 +1,3 @@
+[options]
+maxEmailsToScan=100  ; set to 0 for unlimited scanning
+unreadOnly=true  ; remove or set to 'false' to scan read emails as well

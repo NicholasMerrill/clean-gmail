@@ -1,17 +1,20 @@
 #!/usr/bin/ruby
 
+# Archive email as specified by configuration file.
+
 require 'rubygems'
 require 'time'
 
 require 'gmail'
 require 'inifile'
 
+authConfig = IniFile.load('../config.ini')
 config = IniFile.load('config.ini')
 
 archiveDateString = config['dates']['archive']
 archiveDate = Date.parse(archiveDateString)
 
-Gmail.connect(config['auth']['username'], config['auth']['password']) do |gmail|
+Gmail.connect(authConfig['auth']['username'], authConfig['auth']['password']) do |gmail|
     labelName = "Archived " + Time.new.strftime('%Y-%m-%d')
 
     puts gmail.inbox.count().to_s + " in inbox"
